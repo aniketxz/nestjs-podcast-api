@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
 import { EpisodesService } from './episodes.service';
 import { ConfigService } from '../config/config.service';
@@ -21,8 +29,13 @@ export class EpisodesController {
   }
 
   @Get(':id')
-  findOne(@Param() id: string) {
-    return this.episodesService.findOne(id);
+  async findOne(@Param() id: string) {
+    const episode = await this.episodesService.findOne(id);
+    if (!episode) {
+      throw new NotFoundException('Episode not found');
+    }
+
+    return episode;
   }
 
   @Post()
