@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { CreateEpisodeDto } from './dto/create-episode.dto';
 
 @Controller('episodes')
 export class EpisodesController {
@@ -20,8 +21,8 @@ export class EpisodesController {
   }
 
   @Post()
-  create(@Body() input: any) {
-    console.log(input);
+  create(@Body() dto: CreateEpisodeDto) {
+    console.log(dto);
     return 'created new episode';
   }
 }
